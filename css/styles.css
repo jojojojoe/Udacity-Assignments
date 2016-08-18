@@ -72,10 +72,10 @@ p{
 
 }
 
-.anchor{
+/*.anchor{
 	display: block;
-	height: 50px; /*the height of header */
+	height: 50px; the height of header 
 	margin-top: -50px;
 	visibility: hidden;
-}
+}*/
 /*END HOME PAGE*/
