@@ -1,0 +1,81 @@
+
+/*Header*/
+#header-nav{
+	background-color: darkgray;
+	border-radius: 0;
+	border:2px solid black;
+}
+
+.navbar-brand{
+	padding: 5px;
+}
+
+.navbar-brand h1{
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 30px;
+	color: black;
+}
+
+.navbar-header .navbar-toggle .icon-bar {
+    background-color: black;
+}
+
+.navbar-brand a:hover, .navbar-brand a:focus{
+	text-decoration: none;
+}
+
+.navbar-header button.navbar-toggle{
+  border: 1px solid black;
+}
+.navbar-header button.navbar-toggle {
+  clear: both;
+  margin-top: -40px;
+}
+
+.navbar-default .navbar-collapse{
+	border-color: black;
+}
+
+#nav-list {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#nav-list a {
+  color: black;
+  background-color: white;
+  text-align: center;
+}
+li{
+	border:1px solid black;
+}
+#nav-list a:hover {
+  background: gray;
+}
+
+/*END HEADER*/
+
+/*HOME PAGE*/
+
+#chicken-content, #sushi-content, #beef-content{
+	padding: 10px;
+	padding-top: 0;
+}
+
+p{
+	/*height: 700px;*/
+	background-color: gray;
+	padding: 10px;
+}
+
+@media (max-width: 767px) {
+
+}
+
+.anchor{
+	display: block;
+	height: 50px; /*the height of header */
+	margin-top: -50px;
+	visibility: hidden;
+}
+/*END HOME PAGE*/
