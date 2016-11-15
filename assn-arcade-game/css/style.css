@@ -1,0 +1,43 @@
+body {
+    text-align: center;
+    /* display: flex; */
+}
+
+#myContainer {
+	border: solid lightgray 1px;
+	border-radius: 5px;
+}
+
+#info {
+	background-color: lightgray;
+	display: block;
+}
+
+#score {
+	display: block;
+	/* color: white; */
+}
+
+canvas {
+	margin-top: -30px;
+}
+
+button {
+	border: solid white 1px;
+	border-radius: 5px;
+	background-color: lightgreen;
+}
+
+
+img {
+	height: 85px;
+	width: 50px;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+
+img:hover {
+	border: solid 1px;
+	border-color: lightgreen;
+	background-color: lightcyan;
+}

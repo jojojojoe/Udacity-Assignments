@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Effective JavaScript: Frogger</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="myContainer">
+		<div id="heros">
+			<img src="images/char-cat-girl.png" >
+			<img src="images/char-boy.png">
+			<img src="images/char-pink-girl.png">
+			<img src="images/char-princess-girl.png">
+		</div>
+		<div id="info">
+			<span id="lives">Lives: 2</span>
+			<span id="score">Score: 0</span>
+			<button onclick="replay()">RePlay</button>
+		</div>
+	</div>
+
+	<script>
+		var replay = function(){
+			window.location.reload();
+		}
+
+	</script>
+    <script src="js/resources.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/engine.js"></script>
+</body>
+</html>
