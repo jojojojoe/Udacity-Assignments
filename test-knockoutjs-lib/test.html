@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TEST</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<ul data-bind="foreach: {data: cats, as: 'cat'}">
+		<div data-bind="with: cat">
+			<p data-bind="text: catName"></p>
+			<p data-bind="text: clicks"></p>
+			<img id="catImg" src="" data-bind="attr: {src: imgUrl}, click: increament">
+			<ul data-bind="foreach: nickName">
+				<li data-bind="text: $data"></li>
+			</ul>
+
+			<form id="testInput" data-bind="submit: newName">
+				<input data-bind="value: catName">
+			</form>
+		</div>
+		<hr>
+	</ul>
+
+	<script src="lib/jquery-2.1.4.min.js"></script>
+	<script src="lib/knockout-3.4.1.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+
+</body>
+</html>

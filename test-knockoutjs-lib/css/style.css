@@ -1,0 +1,8 @@
+body {
+	background-color: lightcyan;
+}
+
+img:hover {
+	border: solid lightblue 1px;
+	cursor: pointer;
+}
