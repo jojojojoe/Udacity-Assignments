@@ -1,0 +1,86 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	background-color: lightgrey;
+}
+
+.container {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	font-family: Helvetica, Arial, sans-serif;
+	color: darkgrey;
+}
+
+#listContainer {
+	float: left;
+	background-color: black;
+	height: 100%; 
+	padding: 0;
+}
+
+#inputBox {
+	/* border-radius: 2px; */
+	border: solid white 1px;
+	width: 70%;
+}
+
+#filterBtn {
+	border: solid white 1px;
+	padding: 1px;
+	float: right;
+	width: 30%;
+}
+
+#locationList {
+	padding: 0;
+	float: left;
+	height: 70%;
+}
+
+ul {
+	overflow: auto;
+}
+
+#locationList li{
+	list-style: none;
+	padding-left: 10px;
+	border: solid white 1px;
+}
+
+#locationList li a{
+	text-decoration: none;
+}
+
+#mapContainer {
+	padding: 0;
+	height: 100%;
+	background-color: green;
+}
+
+#headbar {
+	position: fixed;
+	background-color: gray;
+	width: 100%;
+	height: 45px;
+}
+
+#showListBtn{
+	margin-top: 10px;
+	margin-left: 5px;
+	border: solid white 1px;
+	border-radius: 2px;
+	background-color: lightblue;
+}
+
+#map {
+	height: 100%;
+	padding-top: 45px;
+}
