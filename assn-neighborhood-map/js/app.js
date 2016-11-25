@@ -6,44 +6,65 @@ var Model = [
 	{"name": "Geleshan National Forest Park", "location": {"lat": 29.567654, "lng": 106.427850}},
 	{"name": "Chongqing", "location": {"lat": 29.565943, "lng": 106.547296}},
 	{"name": "Dazu Rock Carvings", "location": {"lat": 29.754561, "lng": 105.802660}},
-	// {"name": "Jiefangbei CBD", "location": {29.557171, 106.577060}}
+];
 
-]
+// make markers and infowindow global, so viewmodel can access
+var markers = {};
+var infowindow;
 
 
 // knockout view model
 function ViewModel(){
 	var self = this;
 	self.lists = ko.observableArray(Model);
-	self.selector = function(e){
-		var name = e.name;
-		google.maps.event.trigger(markers[name], 'click');
-	};
-	self.filtertext = ko.observable("");
+	self.inputText = ko.observable("");
+	//use ko's filter utils function to filter lists by input text
 	self.filteredLists = ko.computed(function(){
-		var filter = self.filtertext().toLowerCase();
+		// every time input some text should reset all marker's icon and infowindow
+		for (var key in markers){
+			markers[key].setIcon(null);
+			infowindow.close();
+		}
+
+		var filter = self.inputText().toLowerCase();
 		if (!filter) {
+			// if not filter, close info window and reset all markers again 
+			for (var key in markers){
+				markers[key].setVisible(true);
+				markers[key].setIcon(null);
+			}
 			return self.lists();
 		}else{
 			return ko.utils.arrayFilter(self.lists(), function(list){
 				// return ko.utils.stringStartsWith(list.name.toLowerCase(), filter);
-				return list.name.toLowerCase().indexOf(filter) !== -1;
+				var isFiltered = list.name.toLowerCase().indexOf(filter);
+				if (isFiltered == -1) {
+					markers[list.name].setVisible(false);
+					infowindow.close();
+				}else{
+					markers[list.name].setVisible(true);
+				}
+				return isFiltered !== -1;
 			});
 		}
 	});
 
+	//for test
 	self.testclick = function(){
 		// console.log(self.filteredLists(), "test click");
 	}
-
+	self.selector = function(e){
+		var name = e.name;
+		google.maps.event.trigger(markers[name], 'click');
+	};
 }
 var viewModel = new ViewModel();
 
 
 
-// make markers global, so viewmodel can access
-var markers = {};
 
+
+// map callback method
 function initMap(){
 	'use strict';
 
@@ -51,7 +72,7 @@ function initMap(){
 	var map = new google.maps.Map(document.getElementById("map"),{
 		center:  {"lat": 29.565943, "lng": 106.547296},
 		scrollwheel: false,
-		zoom: 13
+		zoom: 15
 	});
 
 	// use jQuery animation to toggle the left side location lists
@@ -78,7 +99,7 @@ function initMap(){
 
 
 	//create one infowindow
-	var infowindow = new google.maps.InfoWindow();
+	infowindow = new google.maps.InfoWindow();
 
 	// call third party API
 	function getWikiContent(marker, name){
@@ -98,7 +119,6 @@ function initMap(){
 			dataType: 'jsonp',
 			success: function(e){
 				// open info window once get the infomations
-				console.log(e);
 				var pages = e.query.pages[Object.keys(e.query.pages)[0]];
 				var pageLink = pages.canonicalurl;
 				var pageImg = pages.thumbnail.source;
@@ -108,6 +128,12 @@ function initMap(){
 
 				//set map center to selected marker
 				// map.setCenter(marker.getPosition());
+				//clear already selected icon
+				for(var key in markers){
+					markers[key].setIcon(null);
+				}
+				// then change seleted marker icon to green
+				marker.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
 				infowindow.open(map, marker);
 			}
 		});
