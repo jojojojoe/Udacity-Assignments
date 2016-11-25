@@ -101,19 +101,22 @@ function initMap(){
 	//create one infowindow
 	infowindow = new google.maps.InfoWindow();
 
-	// call third party API
-	function getWikiContent(marker, name){
+	// call Wikipedia API
+	function getWikipediaContent(marker, name){
+		// concerns of the ajax request, show an spinner GIF before
+		// the real content is retrieved
+		infowindow.setContent("<img src='ajax-loader.gif'>");
+		infowindow.open(map, marker);
+
 		var wikiURL = "https://en.wikipedia.org/w/api.php?";
 		wikiURL += $.param({
 			"action": "query",
 			"titles": name,
 			"prop": "info|extracts|pageimages",
-			// "prop": "info"|"extracts"|"pageimages",
 			"inprop": "url",
 			"pithumbsize": 300,
 			"format": "json",
 		});
-		console.log(wikiURL);
 		$.ajax({
 			url: wikiURL,
 			dataType: 'jsonp',
@@ -134,7 +137,6 @@ function initMap(){
 				}
 				// then change seleted marker icon to green
 				marker.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
-				infowindow.open(map, marker);
 			}
 		});
 
@@ -148,7 +150,7 @@ function initMap(){
 		});
 		marker.addListener('click', function(e){
 			// call third party API and set the infowindow content
-			getWikiContent(marker, name);
+			getWikipediaContent(marker, name);
 		});
 		markers[name] = marker;
 	}
