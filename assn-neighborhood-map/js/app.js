@@ -1,19 +1,17 @@
 var Model = [
-	{"type": "school", "name": "ChongQing University", "location":{"lat": 29.56559, "lng": 106.4676816}},
-	{"type": "school", "name": "Nankai Middle School", "location":{"lat": 29.560916, "lng": 106.460636}},
-	{"type": "bookshop", "name": "ChongQing University Bookshop", "location":{"lat": 29.565248, "lng": 106.466821, }},
-	{"type": "restaurant", "name": "Mcdonalds", "location":{"lat": 29.559285, "lng": 106.462583}},
-	{"type": "restaurant", "name": "Maoge", "location":{"lat": 29.564884, "lng": 106.458506}},
-	{"type": "restaurant", "name": "Fuwen", "location":{"lat": 29.563018, "lng": 106.454644}},
-	{"type": "hotel", "name": "ChongQing University Hotel", "location":{"lat":29.559695, "lng": 106.463270}},
-	{"type": "hotel", "name": "Sevendays Hotel", "location":{"lat":29.562606, "lng": 106.454772}},
-	{"type": "hotel", "name": "Hanting Hotel", "location":{"lat":29.562457, "lng": 106.462325}},
+	{"name": "Jiefangbei CBD", "location": {"lat": 29.557171, "lng": 106.577060}},
+	{"name": "Ciqikou, Chongqing", "location": {"lat": 29.578068, "lng": 106.450593}},
+	{"name": "Chaotianmen Bridge", "location": {"lat": 29.585523, "lng": 106.578911}},
+	{"name": "Three Gorges Museum", "location": {"lat": 29.562055,"lng": 106.550427}},
+	{"name": "Geleshan National Forest Park", "location": {"lat": 29.567654, "lng": 106.427850}},
+	{"name": "Chongqing", "location": {"lat": 29.565943, "lng": 106.547296}},
+	{"name": "Dazu Rock Carvings", "location": {"lat": 29.754561, "lng": 105.802660}},
+	// {"name": "Jiefangbei CBD", "location": {29.557171, 106.577060}}
 
 ]
 
 
-// // knockout view model
-// 	//for test
+// knockout view model
 function ViewModel(){
 	var self = this;
 	self.lists = ko.observableArray(Model);
@@ -51,9 +49,9 @@ function initMap(){
 
 	// first set up the map
 	var map = new google.maps.Map(document.getElementById("map"),{
-		center:  {lat: 29.564344, lng: 106.468293},
+		center:  {"lat": 29.565943, "lng": 106.547296},
 		scrollwheel: false,
-		zoom: 15
+		zoom: 13
 	});
 
 	// use jQuery animation to toggle the left side location lists
@@ -78,11 +76,43 @@ function initMap(){
 	});
 
 
-	// binding view model
-	ko.applyBindings(viewModel);
 
 	//create one infowindow
 	var infowindow = new google.maps.InfoWindow();
+
+	// call third party API
+	function getWikiContent(marker, name){
+		var wikiURL = "https://en.wikipedia.org/w/api.php?";
+		wikiURL += $.param({
+			"action": "query",
+			"titles": name,
+			"prop": "info|extracts|pageimages",
+			// "prop": "info"|"extracts"|"pageimages",
+			"inprop": "url",
+			"pithumbsize": 300,
+			"format": "json",
+		});
+		console.log(wikiURL);
+		$.ajax({
+			url: wikiURL,
+			dataType: 'jsonp',
+			success: function(e){
+				// open info window once get the infomations
+				console.log(e);
+				var pages = e.query.pages[Object.keys(e.query.pages)[0]];
+				var pageLink = pages.canonicalurl;
+				var pageImg = pages.thumbnail.source;
+				infowindow.setContent("<img src="+pageImg +">" +
+									  "<br>"+
+									  "<a href=" + pageLink + ">" + name + "</a>");
+
+				//set map center to selected marker
+				// map.setCenter(marker.getPosition());
+				infowindow.open(map, marker);
+			}
+		});
+
+	}
 
 	// add marker and listner, then store it in array markers
 	function addMarker(map,latLnt, name){
@@ -91,18 +121,24 @@ function initMap(){
 			map: map
 		});
 		marker.addListener('click', function(e){
-			infowindow.setContent("Hmmmmmmm");
-			infowindow.open(map, marker);
+			// call third party API and set the infowindow content
+			getWikiContent(marker, name);
 		});
 		markers[name] = marker;
 	}
 
-
+	//create a bounds variable to set fit bounds later
+	var mapBounds = new google.maps.LatLngBounds();
+	// iterate the data and add all markers on map
 	viewModel.lists().forEach(function(data){
 		var latLng = new google.maps.LatLng(data.location.lat, data.location.lng);
 		addMarker(map, latLng, data.name);
+		mapBounds.extend(latLng);
 	});
+	map.fitBounds(mapBounds);
 
+	// binding view model
+	ko.applyBindings(viewModel);
 
 //---------------------- places api
 	// //test data
