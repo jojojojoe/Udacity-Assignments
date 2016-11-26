@@ -27,10 +27,10 @@ var Model = [{
     },
     "selected": false
 }, {
-    "name": "Geleshan National Forest Park",
+    "name": "Mount Jinfo",
     "location": {
-        "lat": 29.567654,
-        "lng": 106.427850
+        "lat": 29.019637,
+        "lng": 107.174434
     },
     "selected": false
 }, {
@@ -178,7 +178,7 @@ function initMap() {
                 }
             })
             .fail(function() {
-                alert("Sorry, can't get the location's wikipedia page. -.-")
+                alert("Sorry, can't get the location's wikipedia page. -.-");
             });
 
     }
