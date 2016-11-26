@@ -8,22 +8,18 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body class="container">
-	<div id="listContainer" data-bind="style: {visibility: toggleState() ? 'visible' : 'hidden' }">
-	<!-- for test -->
-
-		<h3>Welcome Chongqing</h3>
+	<div id="listContainer">
+		<h3>Locations</h3>
 		<form id="listForm">
 			<input id="inputBox" 
 				   placeholder="input to filter..."
 				   data-bind="value: inputText, valueUpdate: 'afterkeydown'">
-			<input id="filterBtn"
-			  	   type="submit"
-			  	   value="Filter"
-			  	   data-bind="click: testclick">
+			<!-- <input id="filterBtn" type="submit" value="Filter"> -->
 		</form>
 		<br>
 		<ul id="locationList" data-bind="foreach: filteredLists">
-			<li data-bind="click: $parent.selector, style: { backgroundColor: $parent.selectedName()==name ? '#292d33':'' }">
+			<li data-bind="click: $parent.selector,
+						   style: { backgroundColor: $parent.selectedName()==name ? '#292d33':'' }">
 				<span data-bind="text: name"></span>
 			</li>
 		</ul>
@@ -33,13 +29,11 @@
 			<button class="glyphicon glyphicon-menu-hamburger"
 					id="showListBtn" 
 					data-bind="enable: !disableListBtn(), click: toggle,
-							  style: {backgroundColor: toggleState() ? '#292d33' : 'white'}"></button>
+							  style: {backgroundColor: toggleState() ? '#292d33' : 'lightgrey'}"></button>
 		</div>
 		<div id="map"></div>
 
 	</div>
-
-
 
 	<script src="lib/jquery-2.1.4.min.js"></script>
 	<script src="lib/knockout-3.4.1.js"></script>
