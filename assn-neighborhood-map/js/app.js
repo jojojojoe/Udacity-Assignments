@@ -1,23 +1,34 @@
 var Model = [
-	{"name": "Jiefangbei CBD", "location": {"lat": 29.557171, "lng": 106.577060}},
-	{"name": "Ciqikou, Chongqing", "location": {"lat": 29.578068, "lng": 106.450593}},
-	{"name": "Chaotianmen Bridge", "location": {"lat": 29.585523, "lng": 106.578911}},
-	{"name": "Three Gorges Museum", "location": {"lat": 29.562055,"lng": 106.550427}},
-	{"name": "Geleshan National Forest Park", "location": {"lat": 29.567654, "lng": 106.427850}},
-	{"name": "Chongqing", "location": {"lat": 29.565943, "lng": 106.547296}},
-	{"name": "Dazu Rock Carvings", "location": {"lat": 29.754561, "lng": 105.802660}},
+	{"name": "Jiefangbei CBD", "location": {"lat": 29.557171, "lng": 106.577060}, "selected": false},
+	{"name": "Ciqikou, Chongqing", "location": {"lat": 29.578068, "lng": 106.450593}, "selected": false},
+	{"name": "Chaotianmen Bridge", "location": {"lat": 29.585523, "lng": 106.578911}, "selected": false},
+	{"name": "Three Gorges Museum", "location": {"lat": 29.562055,"lng": 106.550427}, "selected": false},
+	{"name": "Geleshan National Forest Park", "location": {"lat": 29.567654, "lng": 106.427850}, "selected": false},
+	{"name": "Chongqing", "location": {"lat": 29.565943, "lng": 106.547296}, "selected": false},
+	{"name": "Dazu Rock Carvings", "location": {"lat": 29.754561, "lng": 105.802660}, "selected": false},
 ];
 
 // make markers and infowindow global, so viewmodel can access
 var markers = {};
 var infowindow;
 
-
 // knockout view model
 function ViewModel(){
 	var self = this;
 	self.lists = ko.observableArray(Model);
 	self.inputText = ko.observable("");
+	self.selectedName = ko.observable("");
+	self.disableListBtn = ko.observable(true);
+	self.toggleState = ko.observable(true);
+	self.toggle = function(){
+		self.toggleState(!self.toggleState());
+		console.log("toggle", self.toggleState());
+	}
+	// if one item in the lists is selected, simulate the marker is clicked too.
+	self.selector = function(e){
+		var name = e.name;
+		google.maps.event.trigger(markers[name], 'click');
+	};
 	//use ko's filter utils function to filter lists by input text
 	self.filteredLists = ko.computed(function(){
 		// every time input some text should reset all marker's icon and infowindow
@@ -53,10 +64,17 @@ function ViewModel(){
 	self.testclick = function(){
 		// console.log(self.filteredLists(), "test click");
 	}
-	self.selector = function(e){
-		var name = e.name;
-		google.maps.event.trigger(markers[name], 'click');
-	};
+
+	// listen to the window innerWidth changing, if it is wider than 480px, disable the 
+	// listview toggle button, and make sure the list view showing
+	// even if rotate the screen
+	$(window).resize(function(){
+		self.disableListBtn(window.innerWidth > 480);
+		if (window.innerWidth > 480) {
+			self.toggleState(true);
+		}
+	})
+
 }
 var viewModel = new ViewModel();
 
@@ -74,29 +92,6 @@ function initMap(){
 		scrollwheel: false,
 		zoom: 15
 	});
-
-	// use jQuery animation to toggle the left side location lists
-	var toggleState = true;
-	$('#showListBtn').click(function(e){
-		if (toggleState) {
-			$("#listContainer").animate({
-				left: "-200px",
-			}, 600, function(){
-				//call back
-				$('#showListBtn').css("background-color", "grey");
-			});
-		}else{
-			$("#listContainer").animate({
-				left: "0px",
-			}, 600, function(){
-				//call back
-				$('#showListBtn').css("background-color", "lightblue");
-			});
-		}
-		toggleState = !toggleState;
-	});
-
-
 
 	//create one infowindow
 	infowindow = new google.maps.InfoWindow();
@@ -150,6 +145,8 @@ function initMap(){
 		});
 		marker.addListener('click', function(e){
 			// call third party API and set the infowindow content
+
+			viewModel.selectedName(name);
 			getWikipediaContent(marker, name);
 		});
 		markers[name] = marker;
@@ -168,68 +165,7 @@ function initMap(){
 	// binding view model
 	ko.applyBindings(viewModel);
 
-//---------------------- places api
-	// //test data
-	// var chongda = {lat: 29.564344, lng: 106.468293};
-	// chondaLatLng = new google.maps.LatLng(chongda.lat, chongda.lng);
-	// // initial place service
-	// placeService = new google.maps.places.PlacesService(map);
-	// request = {
-	// 	location: chondaLatLng,
-	// 	radius: "5000",
-	// 	types: ["cafe"]
-	// 	// types: ["store", "gym", "bakery", "cafe"]
-	// };
-
-	// function placesCallback(results, status){
-	// 	console.log(results);
-
-	// 	if (status == google.maps.places.PlacesServiceStatus.OK) {
-	// 		handlePlacesResults(map, results, status);
-	// 	}else{
-	// 		console.error(status);
-	// 	}
-	// 	// console.log("viewModel pushed", viewModel.lists());
-	// };
-
-
-	// placeService.nearbySearch(request, placesCallback);
-
-//---------------------- places api
-
-
-
 }
-
-//---------------------- places api
-// initial data for test
-// var chondaLatLng;
-// // global var to store place service
-// var placeService;
-// var request;
-
-
-// handle places request results
-// function handlePlacesResults(map,results, status){
-// 	results.forEach(function(result){
-// 		var name = result.name;
-// 		var addr = result.formatted_address;
-// 		var placeId = result.id;
-// 		var location = result.geometry.location;
-// 		// console.log(name, addr, placeId);
-// 		viewModel.lists().push({
-// 			'name': name,
-// 			'address': addr,
-// 			'placeId': placeId,
-// 		});
-// 		viewModel.lists(viewModel.lists());
-// 		addMarker(map, location);
-// 	});
-// }
-//---------------------- places api
-
-
-
 
 
 

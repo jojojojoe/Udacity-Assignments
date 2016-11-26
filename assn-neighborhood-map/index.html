@@ -8,8 +8,10 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body class="container">
-	<div id="listContainer" class="col-xs-3  col-sm-3 col-md-3 col-lg-3">
-		<h3>Bart Locations</h3>
+	<div id="listContainer" data-bind="style: {visibility: toggleState() ? 'visible' : 'hidden' }">
+	<!-- for test -->
+
+		<h3>Welcome Chongqing</h3>
 		<form id="listForm">
 			<input id="inputBox" 
 				   placeholder="input to filter..."
@@ -21,14 +23,17 @@
 		</form>
 		<br>
 		<ul id="locationList" data-bind="foreach: filteredLists">
-			<li><a data-bind="text: name,  click: $parent.selector"></a></li>
-			<!-- <li><a href="#"  data-bind="text: name"></a></li> -->
+			<li data-bind="click: $parent.selector, style: { backgroundColor: $parent.selectedName()==name ? '#292d33':'' }">
+				<span data-bind="text: name"></span>
+			</li>
 		</ul>
 	</div>
-
-	<div id="mapContainer"  class="col-xs-9  col-sm-9 col-md-9 col-lg-9">
+	<div id="mapContainer">
 		<div id="headbar">		
-			<button id="showListBtn">|||</button>
+			<button class="glyphicon glyphicon-menu-hamburger"
+					id="showListBtn" 
+					data-bind="enable: !disableListBtn(), click: toggle,
+							  style: {backgroundColor: toggleState() ? '#292d33' : 'white'}"></button>
 		</div>
 		<div id="map"></div>
 
