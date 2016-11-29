@@ -1,15 +1,27 @@
-// Enemies our player must avoid
-var Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+// 'use strict';
+// define a parent class, I don't know what name is better...
+var Actor = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
 
+// Draw the enemy on the screen, required method for game
+Actor.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+// Enemies our player must avoid
+function Enemy(x, y, speed) {
+    this.x = x - 100;
+    this.y = y + 70;
+    this.speed = speed;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = x - 100;
-    this.y = y+70;
-    this.speed = speed;
-};
+}
+Enemy.prototype = Object.create(Actor.prototype);
+Enemy.prototype.constructor = Enemy;
+
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -25,53 +37,54 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function(x, y, lives, imgUrl){
-    this.sprite = imgUrl;
-    this.y = y;
+function Player(x, y, lives, imgURL) {
+    this.sprite = imgURL;
     this.x = x;
-    // this.speed = speed;
+    this.y = y;
     this.lives = lives;
     this.score = 0;
-};
+}
 
-Player.prototype.update = function(){
+Player.prototype = Object.create(Actor.prototype);
+Player.prototype.constructor = Player;
+
+Player.prototype.update = function() {
     //跟踪 player enemy 的位置，是否碰到
     // check if collision with enemy. If collided, set the score to 0 
     // and reduce 1 life.
-    allEnemies.forEach(function(enemy){
-        var xdistance = Math.abs(enemy.x - player.x);
-        var ydistance = Math.abs(enemy.y - player.y);
-        if (xdistance < 30 && ydistance < 30) {
-            player.x = 200;
-            player.y = 410;
-            updateScoreOrLives(0, true);
+    var self = this;
+    allEnemies.forEach(function(enemy) {
+        var imgWidth = 83;
+        var imgHeight = 73;
+        if (self.x < enemy.x + imgWidth &&
+            self.x + imgWidth > enemy.x &&
+            self.y < enemy.y + imgHeight &&
+            self.y + imgHeight > enemy.y) {
+            self.x = 200;
+            self.y = 410;
+            self.updateScoreOrLives(0, true);
         }
     });
 
     //check if touched a star
-    allStars.forEach(function(star){
-        var xdistance = Math.abs(star.x - player.x);
-        var ydistance = Math.abs(star.y - player.y);
+    allStars.forEach(function(star) {
+        var xdistance = Math.abs(star.x - self.x);
+        var ydistance = Math.abs(star.y - self.y);
         if (xdistance < 30 && ydistance < 30) {
             var starIndex = allStars.indexOf(star);
             allStars.splice(starIndex, 1);
-            player.score += 1;
-            updateInfoDiv(player.score, player.lives);
+            self.score += 1;
+            updateInfoDiv(self.score, self.lives);
         }
     });
 
 
 };
 
-Player.prototype.render = function(){
+Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     //if lost all lives, change hero color to gray
     if (this.lives <= 0) {
@@ -79,10 +92,10 @@ Player.prototype.render = function(){
     }
 };
 
-Player.prototype.handleInput = function(key){
+Player.prototype.handleInput = function(key) {
     //move the hero by keyboard
     if (this.lives > 0) {
-        switch(key){
+        switch (key) {
             case 'left':
                 this.x -= 100;
                 break;
@@ -95,11 +108,11 @@ Player.prototype.handleInput = function(key){
             case 'down':
                 this.y += 83;
                 break;
-        }        
+        }
     }
 
     //if the hero jumping out of the boundaries, reset the hero's positoin
-    if (this.y > ctx.canvas.height - 150 ||this.x < 0 || this.x > 410) {
+    if (this.y > ctx.canvas.height - 150 || this.x < 0 || this.x > 410) {
         this.x = 200;
         this.y = 410;
     }
@@ -112,11 +125,11 @@ Player.prototype.handleInput = function(key){
         var canvas = document.getElementsByTagName('canvas')[0];
         myContainer.replaceChild(winMsg, canvas);
         this.score += 100;
-        updateScoreOrLives(this.score, 0);
+        this.updateScoreOrLives(this.score, 0);
     }
 };
 
-var updateScoreOrLives = function(score, lostOneLife){
+Player.prototype.updateScoreOrLives = function(score, lostOneLife) {
     player.score = score;
     if (lostOneLife) {
         player.lives -= 1;
@@ -124,7 +137,7 @@ var updateScoreOrLives = function(score, lostOneLife){
     updateInfoDiv(player.score, player.lives);
 };
 
-var updateInfoDiv = function(score, lives){
+var updateInfoDiv = function(score, lives) {
     var livesDiv = document.getElementById("lives");
     var scoreDiv = document.getElementById("score");
     livesDiv.textContent = "Lives: " + lives;
@@ -133,16 +146,16 @@ var updateInfoDiv = function(score, lives){
 
 
 //place ths Stars and Gems to score
-var Star = function(x, y, sprite){
+var Star = function(x, y, sprite) {
     this.x = x;
     this.y = y;
     this.sprite = sprite;
 };
-Star.prototype.render = function(){
+Star.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Star.prototype.update = function(){
+Star.prototype.update = function() {
 
 };
 // Now instantiate your objects.
@@ -154,7 +167,7 @@ var enemy2 = new Enemy(-30, 83, 80);
 var enemy3 = new Enemy(200, 166, 160);
 var enemy30 = new Enemy(-50, 166, 160);
 var enemy4 = new Enemy(100, 249, 260);
-var allEnemies = [enemy1, enemy2, enemy30,enemy3, enemy4];
+var allEnemies = [enemy1, enemy2, enemy30, enemy3, enemy4];
 
 
 var player = {};
@@ -164,7 +177,8 @@ var heroImgUrl = null;
 for (var i = imgs.length - 1; i >= 0; i--) {
     imgs[i].addEventListener("click", chooseHero);
 }
-function chooseHero(evt){
+
+function chooseHero(evt) {
     if (evt) {
         var selectHero = evt.srcElement;
         selectHero.style.backgroundColor = "lightcyan";
@@ -175,8 +189,8 @@ function chooseHero(evt){
                 heroContainerDiv.removeChild(imgs[i]);
             }
         }
-    heroImgUrl = selectHero.attributes.src.value;
-    player = new Player(200, 410, 2, heroImgUrl);
+        heroImgUrl = selectHero.attributes.src.value;
+        player = new Player(200, 410, 5, heroImgUrl);
     }
 }
 
