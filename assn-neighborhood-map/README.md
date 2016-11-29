@@ -1,4 +1,4 @@
-I have being living in this city calld 'Chongqing' for about 4 years, Here is some places that near me and I think they all are very intresting. 
+I have being living in this city calld 'Chongqing' for about 4 years, Here is some places that near me and I think they all are very interesting. 
 
 ##Usage
 
