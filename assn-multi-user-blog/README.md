@@ -1,5 +1,5 @@
 This is an pretty clean web page can used as multi users blog, it looks simple and so as using it.
-You can look at i right now [here](), or you can download this project from [Github]().
+You can open directly [here](https://simpleblog-154108.appspot.com/joe/blog), or you can download this project from [Github](https://github.com/mogen2014/Udacity-course/tree/gh-pages/assn-multi-user-blog).
 
 ## Dependencies
 
