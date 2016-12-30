@@ -121,8 +121,8 @@ class ShowUserAllBlog(Handler):
             # this line works fine on my local computer, but after I
             # deploy it on Google app engine, when I click "Myblog" on "welcome page", return an 500 error. After a painful debugging, the follow in line works seems fine 
             # blogs = db.GqlQuery("SELECT * FROM Blog WHERE username = :1 ORDER BY created DESC", username)
+            
             # get username from url
-
             blogs = Blog.all().filter('username =', cookie_name)
             self.response.headers['Content-Type'] = 'text/html'
             self.render('show-blogs.html',
