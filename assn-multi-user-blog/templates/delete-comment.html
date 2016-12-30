@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block delete_comment %}
+<h2>Are you sure to delete this comment ?</h2>
+<form method="post">
+	<input class="btn btn-danger" type="submit" value="Delete">
+	<a class="btn btn-default" href="/{{ blog.username }}/blog/{{ blog.key().id() }}">Cancel</a>
+</form>
+{% endblock %}

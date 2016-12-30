@@ -1,0 +1,19 @@
+<!-- this page is where user login -->
+{% extends 'base.html' %}
+{% block login %}
+<div id="loginPage">
+	<form method="post">
+		<h2><a href="/">Signup</a></span>&nbsp;&nbsp;|&nbsp;&nbsp;Login<span></h2>
+		<div class="form-group">
+			<input class="form-control" type="text" placeholder="Username" name="username">
+		</div>
+
+		<div class="form-group">
+			<input class="form-control" type="password" name="password" placeholder="Password">
+		</div>
+		<span style="color: red;">{{login_error}}</span>
+		<br><br>
+		<button class="btn btn-primary" type="submit">Login</button>
+	</form>
+</div>
+{% endblock %}

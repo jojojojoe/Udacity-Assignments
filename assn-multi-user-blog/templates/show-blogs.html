@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block blogs %}
+<!-- if have some blogs -->
+{% if blogs.get() %}
+	<div id="blogsPage">
+		{% for blog in blogs %}
+			<h2 class="blogTitle"><a href="/{{ blog.username }}/blog/{{ blog.key().id() }}">{{ blog.subject }} </a></h2>
+			<span class="blogTime">{{ blog.created.strftime('%B %d %Y')}}</span>
+			<hr>
+			<!-- give back the br tag that is escaped in user's input -->
+			<span>By&nbsp;{{ blog.username }}</span>
+			<p class="blogP">
+			{% for line in blog.content.splitlines() %}
+				{{ line }}<br>
+			{% endfor %}
+			</p>
+		{% endfor %}
+	</div>
+<!-- if don't have one -->
+{% else %}
+	<br><br>
+	<h2>You can add a story now... </h2>
+{% endif %}
+{% endblock %}

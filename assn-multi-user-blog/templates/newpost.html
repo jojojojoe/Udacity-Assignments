@@ -1,0 +1,51 @@
+<!-- this page is where user write a new blog post -->
+{% extends 'base.html' %}
+{% block newpost %}
+<div id="newpost">
+	<h2>New post</h2>
+	<form method="post">
+		<!-- when editing a exists blog, we get a blog from user click -->
+		{% if blog %}
+			<div class="form-group">
+				<input class="post-subject form-control"
+						type="text"
+						name="subject"
+						value="{{ blog.subject }}"
+						placeholder="Title">
+			</div>
+			<div class="form-group">
+				<textarea class="post-content form-control" rows="20" name="content">{{ blog.content }}</textarea>
+			</div>
+			<div id="postBtn">
+				<input class="btn btn-success" type="submit" value="Post">
+			</div>
+			<div id="cancelBtn">
+				<a class="btn btn-danger" href="/{{ blog.username }}/blog">Cancel</a>
+			</div>
+		<!-- when creating a fresh new blog -->
+		{% else %}
+			<div class="form-group">
+				<input class="post-subject form-control"
+						type="text"
+						name="subject"
+						value="{{ subject }}"
+						placeholder="Title">
+			</div>
+			<div class="form-group">
+				<textarea class="post-content form-control" rows="20" name="content" placeholder="Write your story...">{{ content }}</textarea>
+			</div>
+			<div id="postBtn">
+				<input class="btn btn-success" type="submit" value="Post">
+			</div>
+			<div id="cancelBtn">
+				<a class="btn btn-danger" href="/{{ cookie_name }}/blog">Cancel</a>
+			</div>
+		{% endif %}
+
+		<h4 style="color: red">{{ error }}</h4>
+
+	</form>
+</div>
+
+{% endblock %}
+

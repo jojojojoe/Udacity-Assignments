@@ -28,5 +28,8 @@ toy_story = Movie('Toy Story',
 # put all movie objects in a list
 movies = [life_of_pi, crounching_tiger, mood_for_love, blueberry_nights, inside_out, toy_story]
 
-# create and open the html file in browser
+# This function call opens the web browser using an array of movie instances.
+function()
 fresh_tomatoes.open_movies_page(movies)
+
+

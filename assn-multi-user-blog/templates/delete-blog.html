@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block delete_blog%}
+<h1>Are you sure to delete &quot;{{blog.subject}}&quot; ? </h1>
+
+<form method="post">
+	<input class="btn btn-danger" type="submit" value="Delete">
+	<a class="btn btn-default" href="/{{ blog.username }}/blog/{{ blog.key().id() }}">Cancel</a>
+</form>
+{% endblock %}

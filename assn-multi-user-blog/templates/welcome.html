@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block welcome %}
+<div id="welcomePage">
+<h1>Welcome, {{cookie_name}}!</h1>
+<h2>
+	<a href="/{{ cookie_name }}/blog">
+		<span class="glyphicon glyphicon-hand-right"></span>
+		&nbsp;My Blog
+	</a>
+</h2>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blog</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, width=device-width">
+	<link rel="stylesheet" type="text/css" href="/stylesheet/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheet/style.css">
+</head>
+<body id="container">
+	<nav>
+		<h1 id="homeButton"><a href="/blogs">Home</a></h1>
+
+		<!-- only if user logged in he can click to create a new post-->
+		{% if cookie_name %}
+		<div id="newpostBtn">
+			<a href="/{{cookie_name}}/blog/newpost">
+				<span id="newpostText">Write a story</span>
+				<span id="newpostIcon" class="glyphicon glyphicon-pencil"></span>
+			</a>
+		</div>
+		<!-- else he will been redirected to login -->
+		{% else%}
+		<div id="newpostBtn">
+			<a href="/">
+				<span id="newpostText">Write a story</span>
+				<span id="newpostIcon" class="glyphicon glyphicon-pencil"></span>
+			</a>
+		</div>
+		{% endif %}
+
+		<!-- if user logged in, header bar should display his name and logout button -->
+		{% if cookie_name %}
+		<div id="userInfo">
+			<div id="username">
+				<a  href="/welcome "><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;{{ cookie_name }}</a>
+			</div>
+			<div id="logout">
+				<a href="/logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;Logout</a>
+			</div>
+		</div>
+		<!-- if not logged in, header bar show a button to sign up or login -->
+		{% else %}
+		<div id="login">
+			<a href="/">Login&nbsp;&nbsp;/&nbsp;&nbsp;Signup</a>
+		</div>
+		{% endif %}
+	</nav>
+
+	<div id="contentContainer">
+		{% block signup %}
+		{% endblock %}
+
+		{% block login %}
+		{% endblock %}
+
+		{% block welcome %}
+		{% endblock%}
+
+		{% block newpost%}
+		{% endblock %}
+
+		{% block blogs %}
+		{% endblock %}
+
+		{% block selected_blog%}
+		{% endblock%}
+
+		{% block delete_blog%}
+		{% endblock %}
+
+		{% block comment%}
+		{% endblock %}
+
+		{% block edit_comment%}
+		{% endblock %}
+
+		{% block delete_comment%}
+		{% endblock %}
+	</div>
+</body>
+</html>

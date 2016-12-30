@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block selected_blog%}
+<div id="selectedBlog">
+	<h2 class="blogTitle">{{ blog.subject }}</h2>
+	<span class="blogTime">{{ blog.created.strftime('%B %d %Y')}}</span>
+	<hr>
+	<!-- give back the br tag that is escaped in user's input -->
+	<span>By&nbsp;{{ blog.username }}</span>
+	<p class="blogP">
+	{% for line in blog.content.splitlines() %}
+		{{ line }}<br>
+	{% endfor %}
+	</p>
+	<!-- the logged in user can edit and delete his own blog, but can not comment his own blog -->
+	{% if cookie_name %}
+		{% if cookie_name == blog.username %}
+			<div id="editBtn">
+				<a class="btn btn-primary" href="/{{ blog.username }}/blog/{{ blog.key().id() }}/edit">Edit</a>
+			</div>
+			<div id="cancelBtn">
+			<a class="btn btn-danger" href="/{{ blog.username }}/blog/{{ blog.key().id() }}/delete">Delete</a>
+			</div>
+		<!-- logged in users can comment other's blog -->
+		{% elif cookie_name != blog.username %}
+		<a class="btn btn-primary" href="/{{ blog.username }}/blog/{{ blog.key().id() }}/comment">Comment</a>
+		{% endif%}
+	{% endif %}
+</div>
+<div id="comments">
+	<span><span class="glyphicon glyphicon-heart"></span>&nbsp;{{ likes }} Likes</span>
+		{% for comment in comments: %}<hr>
+		<div>
+			<!-- give back the br tag that is escaped in user's input -->
+			<span id="commentName"><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Comment by {{ comment.username }}</span>
+			<p id="commentP">
+			{% for line in comment.comment_content.splitlines() %}
+				{{ line }}<br>
+			{% endfor %}
+			</p>
+			<!-- only logged in user can see comment's edit delete links -->
+			{% if cookie_name %}
+				{% if comment.username == cookie_name %}
+				<div id="editBtn">
+					<a class="btn btn-primary btn-xs" href="/{{blog.username}}/blog/{{comment.blogid}}/comment/{{comment.key().id()}}/edit">Edit</a>
+				</div>
+				<div id="deleteBtn">
+					<a class="btn btn-danger btn-xs" href="/{{blog.username}}/blog/{{comment.blogid}}/comment/{{comment.key().id()}}/delete">Delete</a>
+				</div>
+				{% endif %}
+			{% endif %}
+		</div>
+		{% endfor %}
+</div>
+
+{% endblock %}

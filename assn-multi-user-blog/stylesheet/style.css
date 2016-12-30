@@ -1,0 +1,231 @@
+body {
+	box-sizing: border-box;
+	position: relative;
+	background-color: #dce0e8;
+	text-align: center;
+}
+
+/* nav begin */
+nav {
+	background-color: #4286f4;
+	text-align: left;
+	position: fixed;
+	width: 100%;
+}
+
+
+nav a {
+	color: white;
+	text-decoration: none;
+}
+nav a:hover {
+	color: white;
+	text-decoration: none;
+}
+
+#homeButton, #newpostBtn, #userInfo, #login {
+	width: 32%;
+	text-align: center;
+}
+
+#homeButton {
+	display: inline-block;
+	margin-top: 10px;
+	padding: 0 auto;
+	padding-top: 0px;
+}
+
+#newpostBtn {
+	/* position: relative; */
+	/* left: 30%; */
+	display: inline-block;
+}
+
+#newpostBtn #newpostText {
+	text-decoration: underline;
+	font-size: 1.2em;
+}
+
+#newpostBtn #newpostIcon {
+	font-size: 1.5em;
+}
+
+#userInfo, #login {
+	display: inline-block;
+	/* float: right; */
+	/* margin-right: 100px; */
+	margin-top: 15px;
+	font-size: 1.2em;
+}
+
+#username, #logout {
+	display: inline-block;
+}
+
+#username {
+	margin-right: 15px;
+}
+
+/* nav end */
+/* signup login begin */
+
+#loginPage, #signupPage {
+	max-width: 400px;
+	margin: 80px auto;
+}
+
+.error {
+	float: right;
+}
+
+#welcomePage a {
+	text-decoration: underline;
+	color: black;
+}
+
+#welcomePage h2 a span {
+	color: #4286f4;
+}
+/* signup login end */
+/* blogs begin */
+hr {
+	margin-top: 2px;
+}
+
+#contentContainer {
+	margin: 0 auto;
+	width: 80%;
+	border: solid #c9ced6 1px;
+	border-radius: 3px;
+	padding: 20px;
+	padding-top: 50px;
+}
+
+#blogsPage {
+	text-align: left;
+}
+
+.blogTime, .blogTitle {
+	display: inline-block;
+	/* position: relative; */
+}
+
+.blogTime {
+	text-align: right;
+	width: 20%;
+}
+
+.blogTitle {
+	/* right: 40%; */
+	margin-bottom: 0px;
+	margin-top: 50px;
+	text-align: left;
+	width: 70%;
+}
+
+.blogContent {
+	width: 95%;
+	margin: 0 auto;
+	text-align: left;
+}
+
+.blogTitle a {
+	text-decoration: underline;
+	color: black;
+}
+
+.blogP {
+	background-color: white;
+	border-radius: 5px;
+	padding: 20px;
+	font-size: 1.4em;
+}
+/* blogs end */
+
+/* customise bootstrap's button */
+.btn-primary {
+	background-color: #4286f4;
+}
+
+/* new post begin */
+
+#newpost h2 {
+	text-align: center;
+}
+
+#cancelBtn {
+	margin-top: 5px;
+}
+
+/*  {
+	padding-right: 20px;
+} */
+
+/* newpost end */
+
+/* show selected blog */
+#selectedBlog {
+	text-align: left;
+}
+
+
+/* comments */
+#comments, #commentNow {
+	margin-top: 20px;
+	text-align: left;
+	width: 70%;
+	border-left: solid #c9ced6 1px;
+	border-radius: 3px;
+	padding: 20px;
+	background-color: #c9cfd8;
+
+}
+
+#commentP {
+	padding-left: 10px;
+	margin-bottom: 5px;
+	font-size: 1.2em;
+}
+
+#comments #editBtn, #comments #deleteBtn {
+	display: inline-block;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding-left: 10px;
+}
+
+#comments hr {
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+/* show selected blog end */
+
+/* edit comment begin*/
+#commentNow {
+	margin: 50px auto;
+	text-align: center;
+}
+#commentNow textarea {
+	width: 80%;
+	border-radius: 3px;
+	padding: 20px;
+}
+/* edit comment end */
+
+
+/* some "global" styles */
+* textarea {
+	resize: none;
+}
+
+#postBtn, #editBtn, #cancelBtn, #deleteBtn {
+	text-align: right;
+}
+#editBtn {
+	margin-top: 15px;
+}
+#cancelBtn, #deleteBtn {
+	margin-top: 5px;
+}
+

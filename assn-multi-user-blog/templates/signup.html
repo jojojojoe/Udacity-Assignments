@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block signup %}
+<div id="signupPage">
+	<form method="post">
+		<h2>Signup&nbsp;&nbsp;|<span><a href="/login">&nbsp;&nbsp;Login</a></span></h2>
+
+		<div class="form-group">
+			<input class="form-control" type="text" name="username" value="{{username}}" placeholder="Username">
+			<span class="error" style="color: red">{{username_error}}</span>
+		</div>
+		<div class="form-group">
+			<input class="form-control" type="password" name="password" value="{{password}}" placeholder="Password">
+			<span class="error" style="color: red">{{password_error}}</span>
+		</div>
+		<div class="form-group">
+			<input class="form-control" type="password" name="verify" value="{{verify}}" placeholder="Varify Password">
+			<span class="error" style="color: red">{{varify_error}}</span>
+		</div>
+		<div class="form-group">
+			<input class="form-control" type="text" name="email" value="{{email}}" placeholder="Email(optional)">
+			<span class="error" style="color: red">{{email_error}}</span>
+		</div>
+
+		<button class="btn btn-primary" type="submit">Signup</button>
+	</form>
+</div>
+{% endblock%}
