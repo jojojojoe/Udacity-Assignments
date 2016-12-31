@@ -31,7 +31,7 @@ def create_cookie(uid):
     return'%s|%s' % (uid, str(hash_user_db_id))
 # this method take an cookie as argument, then return an user boject
 # if cookie is valid
-def varify_uid_cookie(cc):
+def verify_uid_cookie(cc):
     cc = cc.encode('utf8')
     cookie = cc.split('|')
     if cc == create_cookie(cookie[0]):
@@ -110,7 +110,7 @@ class Welcome(Handler):
         user_id_cookie = self.request.cookies.get('user_id').encode('utf8')
         # check if user logged in or signed up
         if user_id_cookie:
-            user = varify_uid_cookie(user_id_cookie)
+            user = verify_uid_cookie(user_id_cookie)
             if user:
                 self.render('welcome.html', cookie_name = user.username)
             else:
@@ -121,7 +121,7 @@ class Welcome(Handler):
 class Signup(Handler):
     username_error = ''
     password_error = ''
-    varify_error = ''
+    verify_error = ''
     email_error = ''
 
     def get(self):
@@ -129,18 +129,18 @@ class Signup(Handler):
         # first check if is logged in
         if user_id:
             user_id = user_id.encode('utf8')
-            user = varify_uid_cookie(user_id)
+            user = verify_uid_cookie(user_id)
             if user:
                 self.render('welcome.html', username = user.username)
             else:
                 self.render('signup.html',
                             username_error='',
                             password_error='',
-                            varify_error = '',
+                            verify_error = '',
                             email_error='')
         # if not logged in render signup page for sign up or login
         else:
-            self.render('signup.html', username_error='', password_error='', varify_error = '', email_error='')
+            self.render('signup.html', username_error='', password_error='', verify_error = '', email_error='')
 
     # this method take a username as argument look up 
     # if user name has been existed in database
@@ -153,14 +153,14 @@ class Signup(Handler):
         else:
             self.username_error = 'Username not valid!'
             return (re.compile(r"^[a-zA-Z0-9_-]{3,20}$")).match(username)
-    # varify users password
+    # verify users password
     def verify_password_input(self, password):
         return (re.compile(r"^.{3,20}$")).match(password)
     # when signing up, make sure the two passwords user typed in 
     # are the same
     def verify_same_pw_input(self, pw1, pw2):
         return pw1 == pw2
-    # user regular expression to varify an email address
+    # user regular expression to verify an email address
     def verify_email_input(self, email):
         return (re.compile(r"^[\S]+@[\S]+.[\S]+$")).match(email)
 
@@ -175,7 +175,7 @@ class Signup(Handler):
             self.password_error = 'Password is not valid'
 
         if not self.verify_same_pw_input(password, verify):
-            self.varify_error = 'Passwords are not matched'
+            self.verify_error = 'Passwords are not matched'
 
         if self.verify_email_input(email) == None:
             self.email_error = 'Email is not valid'
@@ -197,9 +197,9 @@ class Signup(Handler):
                          email=email,
                          username_error=self.username_error,
                          password_error=self.password_error,
-                         varify_error = self.varify_error,
+                         verify_error = self.verify_error,
                          email_error=self.email_error)
-            print self.username_error, self.varify_error, self.email_error
+            print self.username_error, self.verify_error, self.email_error
             
 # login page
 class Login(Handler):
@@ -207,7 +207,7 @@ class Login(Handler):
         # check if already logged in
         user_id_cookie = self.request.cookies.get('user_id')
         if user_id_cookie:
-            user = varify_uid_cookie(user_id_cookie)
+            user = verify_uid_cookie(user_id_cookie)
             # if user is logged in redirect to welcome page
             if user:
                 self.redirect('welcome')
@@ -217,7 +217,7 @@ class Login(Handler):
             self.render('login.html')
 
     def post(self):
-        # varify username and password
+        # verify username and password
         username = self.request.get('username').encode('utf8')
         password = self.request.get('password').encode('utf8')
         db_user = User.login(username,password)

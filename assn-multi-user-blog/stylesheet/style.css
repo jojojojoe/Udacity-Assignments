@@ -168,15 +168,28 @@ hr {
 	text-align: left;
 }
 
+#selectedBlog #editBtn, #selectedBlog #deleteBtn{
+	display: inline-block;
+	float: right;
+	margin: 0px;
+	margin-right: 10px;
+}
+
+/* likes */
+
+#likes {
+	margin-bottom: 10px;
+	display: inline-block;
+}
 
 /* comments */
 #comments, #commentNow {
-	margin-top: 20px;
+	margin: 20px;
 	text-align: left;
 	width: 70%;
 	border-left: solid #c9ced6 1px;
 	border-radius: 3px;
-	padding: 20px;
+	/* padding: 20px; */
 	background-color: #c9cfd8;
 
 }

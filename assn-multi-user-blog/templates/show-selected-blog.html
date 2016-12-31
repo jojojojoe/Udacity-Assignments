@@ -11,23 +11,40 @@
 		{{ line }}<br>
 	{% endfor %}
 	</p>
-	<!-- the logged in user can edit and delete his own blog, but can not comment his own blog -->
+
+	<span></span>&nbsp;{{ likes }} Like(s)
+	<br>
+		{% if not liked %}
+			{% if cookie_name and blog.username != cookie_name%}
+				<form method="post" id="likes">
+					<button class="btn btn-default" type="submit">
+						<span class="glyphicon glyphicon-heart-empty"></span>
+					</button>
+				</form>
+			{% else %}
+				<button class="btn btn-default" disabled="">
+					<span class="glyphicon glyphicon-heart-empty"></span>
+				</button>
+			{% endif %}
+		{% else %}
+			<button class="btn btn-default" disabled>
+				<span class="glyphicon glyphicon-heart"></span>
+			</button>
+		{% endif %}
+	<!-- the logged in user can edit and delete his own blog-->
 	{% if cookie_name %}
-		{% if cookie_name == blog.username %}
+			<div id="deleteBtn">
+			<a class="btn btn-danger" href="/{{ blog.username }}/blog/{{ blog.key().id() }}/delete">Delete</a>
+			</div>
 			<div id="editBtn">
 				<a class="btn btn-primary" href="/{{ blog.username }}/blog/{{ blog.key().id() }}/edit">Edit</a>
 			</div>
-			<div id="cancelBtn">
-			<a class="btn btn-danger" href="/{{ blog.username }}/blog/{{ blog.key().id() }}/delete">Delete</a>
-			</div>
-		<!-- logged in users can comment other's blog -->
-		{% elif cookie_name != blog.username %}
 		<a class="btn btn-primary" href="/{{ blog.username }}/blog/{{ blog.key().id() }}/comment">Comment</a>
-		{% endif%}
 	{% endif %}
+	<br>
 </div>
+
 <div id="comments">
-	<span><span class="glyphicon glyphicon-heart"></span>&nbsp;{{ likes }} Likes</span>
 		{% for comment in comments: %}<hr>
 		<div>
 			<!-- give back the br tag that is escaped in user's input -->
@@ -41,10 +58,10 @@
 			{% if cookie_name %}
 				{% if comment.username == cookie_name %}
 				<div id="editBtn">
-					<a class="btn btn-primary btn-xs" href="/{{blog.username}}/blog/{{comment.blogid}}/comment/{{comment.key().id()}}/edit">Edit</a>
+					<a class="btn btn-primary btn-xs" href="/{{blog.username}}/blog/{{comment.articleid}}/comment/{{comment.key().id()}}/edit">Edit</a>
 				</div>
 				<div id="deleteBtn">
-					<a class="btn btn-danger btn-xs" href="/{{blog.username}}/blog/{{comment.blogid}}/comment/{{comment.key().id()}}/delete">Delete</a>
+					<a class="btn btn-danger btn-xs" href="/{{blog.username}}/blog/{{comment.articleid}}/comment/{{comment.key().id()}}/delete">Delete</a>
 				</div>
 				{% endif %}
 			{% endif %}

@@ -3,7 +3,7 @@
 {% block comment %}
 <div id="commentNow">
 	<form method="post">
-		<label><span class="glyphicon glyphicon-heart"></span>&nbsp;Like this blog <input type="checkbox" name="like" {{like}}></label><br><br>
+		<br>
 		<textarea rows="10" name="comment_content">{{ comment.comment_content }}</textarea><br><br>
 		<input class="btn btn-primary btn-xs" type="submit" value="Save">
 		<a class="btn btn-danger btn-xs" href="/{{ blog.username }}/blog/{{ blog.key().id() }}">Cancel</a>
