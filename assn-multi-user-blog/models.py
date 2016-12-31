@@ -16,7 +16,8 @@ class Comment(db.Model):
     articleid = db.StringProperty(required=True)
 
 
-class LikeArticle(db.Model):
+class LikeArticle   (db.Model):
     "User Liks db"
     username = db.StringProperty(required=True)
+
     articleid = db.StringProperty(required=True)

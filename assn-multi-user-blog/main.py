@@ -80,6 +80,7 @@ def verify_cookie_name(obj):
 # this class will create a blog
 
 class CreateArticle(Handler):
+    # self.re se
 
     def get(self):
         cookie_name = verify_cookie_name(self)
@@ -170,7 +171,14 @@ class ShowUserAllArticle(Handler):
 class ShowAllArticle(Handler):
 
     def get(self):
-        cookie_name = verify_cookie_name(self)
+        cookie_name = ''
+        # if user open this page in browser's "private mode"
+        # it will not have cookies
+        if self.request.cookies.has_key('user_id'):
+            cookie_name = verify_cookie_name(self)
+        else:
+            cookie_name = None
+
         blogs = Article.all().order('-created')
         self.response.headers['Content-Type'] = 'text/html'
         self.render('show-blogs.html', blogs=blogs,
@@ -295,7 +303,8 @@ class EditArticle(Handler):
                             subject=verify_blog(self).subject,
                             content=verify_blog(self).content,
                             cookie_name=cookie_name,
-                            error='Boath subject and content should not be empty')
+                            error='Boath subject and content \
+                                    should not be empty')
         else:
 
             # if user messed up url in browser
